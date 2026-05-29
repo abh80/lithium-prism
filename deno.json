@@ -1,0 +1,20 @@
+{
+    "tasks": {
+        "check": "deno lint && pnpm run check"
+    },
+    "nodeModulesDir": "manual",
+    "lock": false,
+    "exclude": [".svelte-kit", "demo-dist", "dist", "node_modules"],
+    "unstable": ["fmt-component"],
+    "fmt": {
+        "exclude": ["pnpm-lock.yaml"],
+        "indentWidth": 4,
+        "lineWidth": 100,
+        "trailingCommas": "onlyMultiLine",
+        "operatorPosition": "nextLine"
+    },
+    "compilerOptions": {
+        "lib": ["dom", "dom.iterable", "esnext"],
+        "strict": true
+    }
+}

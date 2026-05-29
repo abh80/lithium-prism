@@ -1,0 +1,9 @@
+.DS_Store
+.svelte-kit
+.npm-cache
+.pnpm-store
+demo-dist
+dist
+node_modules
+npm-debug.log*
+pnpm-debug.log*
