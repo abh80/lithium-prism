@@ -211,10 +211,6 @@ button,
     -webkit-user-select: none;
     -webkit-user-drag: none;
 
-    &:hover {
-        background-color: var(--helium-elevated-10);
-    }
-
     &:active {
         background-color: var(--helium-elevated-15);
         transform: scale(0.97);
@@ -223,10 +219,6 @@ button,
     &.primary {
         color: var(--white);
         background-color: var(--helium-blue);
-
-        &:hover {
-            background-color: var(--helium-blue-hover);
-        }
 
         &:active {
             background-color: var(--helium-blue-press);
@@ -284,6 +276,18 @@ button,
     }
 }
 
+@media (hover: hover) {
+    button:hover,
+    .button:hover {
+        background-color: var(--helium-elevated-10);
+    }
+
+    button.primary:hover,
+    .button.primary:hover {
+        background-color: var(--helium-blue-hover);
+    }
+}
+
 a.button {
     text-decoration: none;
 }
@@ -318,7 +322,6 @@ a:focus-visible {
     background-color: var(--helium-elevated-7);
     display: inline-flex;
 
-    &:hover,
     &:focus-within {
         background-color: var(--helium-elevated-10);
     }
@@ -326,6 +329,13 @@ a:focus-visible {
     &:focus-within {
         outline: 2px var(--primary) solid;
         outline-offset: -1px;
+    }
+}
+
+@media (hover: hover) {
+    .input-field:hover,
+    .dropdown:hover {
+        background-color: var(--helium-elevated-10);
     }
 }
 
