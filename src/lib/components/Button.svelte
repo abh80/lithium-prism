@@ -2,13 +2,22 @@
     import type { Snippet } from "svelte";
     import type { HTMLButtonAttributes } from "svelte/elements";
 
+    type ButtonVariantProps =
+        | {
+            primary?: boolean;
+            transparent?: false;
+        }
+        | {
+            primary?: false;
+            transparent?: boolean;
+        };
+
     type Props = HTMLButtonAttributes & {
         children: Snippet;
-        primary?: boolean;
         card?: boolean;
         selected?: boolean;
         circle?: boolean;
-    };
+    } & ButtonVariantProps;
 
     let {
         children,
@@ -18,6 +27,7 @@
         card = false,
         selected = false,
         circle = false,
+        transparent = false,
         ...rest
     }: Props = $props();
 </script>
@@ -29,6 +39,7 @@
         card && "card",
         selected && "selected",
         circle && "circle",
+        transparent && !primary && "transparent",
         className,
     ]}
     {type}

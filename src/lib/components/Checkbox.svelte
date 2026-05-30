@@ -112,12 +112,14 @@
         transition: transform 0.2s;
     }
 
-    .checkbox:hover input:not(:checked) + .checkbox-control {
-        background-color: var(--helium-elevated-10);
-    }
+    @media (hover: hover) {
+        .checkbox:hover input:not(:checked) + .checkbox-control {
+            background-color: var(--helium-elevated-10);
+        }
 
-    .checkbox:hover input:checked + .checkbox-control {
-        background-color: var(--helium-blue-hover);
+        .checkbox:hover input:checked + .checkbox-control {
+            background-color: var(--helium-blue-hover);
+        }
     }
 
     .checkbox:active .checkbox-control {
