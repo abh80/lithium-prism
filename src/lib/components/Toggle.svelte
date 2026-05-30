@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import type { HTMLButtonAttributes } from "svelte/elements";
+    import type { ClassValue, HTMLButtonAttributes } from "svelte/elements";
 
     type ToggleContentProps =
         | {
@@ -14,7 +14,8 @@
             desc?: string;
         };
 
-    type Props = Omit<HTMLButtonAttributes, "aria-checked" | "onchange"> & {
+    type Props = Omit<HTMLButtonAttributes, "aria-checked" | "class" | "onchange"> & {
+        class?: ClassValue;
         checked?: boolean;
         onchange?: (checked: boolean) => void;
     } & ToggleContentProps;

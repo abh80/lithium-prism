@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import type { HTMLButtonAttributes } from "svelte/elements";
+    import type { ClassValue, HTMLButtonAttributes } from "svelte/elements";
 
     type ButtonVariantProps =
         | {
@@ -12,8 +12,9 @@
             transparent?: boolean;
         };
 
-    type Props = HTMLButtonAttributes & {
+    type Props = Omit<HTMLButtonAttributes, "class"> & {
         children: Snippet;
+        class?: ClassValue;
         card?: boolean;
         selected?: boolean;
         circle?: boolean;
@@ -34,12 +35,14 @@
 
 <button
     class={[
-        "button",
-        primary && "primary",
-        card && "card",
-        selected && "selected",
-        circle && "circle",
-        transparent && !primary && "transparent",
+        {
+            button: true,
+            primary,
+            card,
+            selected,
+            circle,
+            transparent,
+        },
         className,
     ]}
     {type}

@@ -13,7 +13,14 @@
 </script>
 
 <a
-    class={["button card card-link", className]}
+    class={[
+        {
+            button: true,
+            card: true,
+            "card-link": true,
+        },
+        className,
+    ]}
     {href}
     target="_blank"
     rel="noopener noreferrer"

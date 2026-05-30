@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import type { HTMLSelectAttributes } from "svelte/elements";
+    import type { ClassValue, HTMLSelectAttributes } from "svelte/elements";
     import IconChevronDown from "./icons/IconChevronDown.svelte";
 
     type DropdownOption = {
@@ -10,7 +10,7 @@
     };
     type NativeSelectProps = Omit<
         HTMLSelectAttributes,
-        "aria-label" | "id" | "size" | "value"
+        "aria-label" | "class" | "id" | "size" | "value"
     >;
     type DropdownContentProps =
         | {
@@ -32,6 +32,7 @@
     type Props = NativeSelectProps & {
         id: string;
         "aria-label": string;
+        class?: ClassValue;
         value?: string;
         width?: string;
         select?: HTMLSelectElement;
@@ -52,7 +53,16 @@
     }: Props = $props();
 </script>
 
-<label class={["dropdown", disabled && "disabled", className]} style:width>
+<label
+    class={[
+        {
+            dropdown: true,
+            disabled,
+        },
+        className,
+    ]}
+    style:width
+>
     <select
         bind:this={select}
         bind:value

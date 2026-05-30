@@ -50,7 +50,14 @@
 
 <svelte:element
     this={element}
-    class={["text", tone && `tone-${tone}`, center && "center", className]}
+    class={[
+        {
+            text: true,
+            [`tone-${tone}`]: tone,
+            center,
+        },
+        className,
+    ]}
 >
     {@render children()}
 </svelte:element>

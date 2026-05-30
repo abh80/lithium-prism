@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import type { HTMLAnchorAttributes } from "svelte/elements";
+    import type { ClassValue, HTMLAnchorAttributes } from "svelte/elements";
 
-    type Props = Omit<HTMLAnchorAttributes, "href"> & {
+    type Props = Omit<HTMLAnchorAttributes, "class" | "href"> & {
         href: string;
+        class?: ClassValue;
         children: Snippet;
     };
 
