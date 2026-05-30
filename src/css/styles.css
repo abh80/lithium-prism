@@ -30,9 +30,10 @@
     --helium-elevated-40: color-mix(in srgb, var(--helium-elevated) 40%, transparent);
     --helium-elevated-50: color-mix(in srgb, var(--helium-elevated) 50%, transparent);
 
-    --gap: 6px;
-    --gap-1: 12px;
-    --gap-2: 20px;
+    --gap-1: 6px;
+    --gap-2: 8px;
+    --gap-3: 12px;
+    --gap-4: 20px;
     --content-padding: 32px;
     --section-padding: 48px;
 
@@ -241,7 +242,7 @@ button,
         text-align: left;
         border-radius: 14px;
         padding: 14px 18px;
-        gap: var(--gap-1);
+        gap: var(--gap-3);
 
         &:active {
             transform: none;
@@ -317,7 +318,7 @@ a:focus-visible {
 
 .action-buttons {
     display: flex;
-    gap: var(--gap);
+    gap: var(--gap-1);
 
     & > button,
     & > .button {

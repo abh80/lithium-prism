@@ -470,7 +470,7 @@
 
     .showcase-section {
         display: grid;
-        gap: var(--gap-2);
+        gap: var(--gap-4);
         justify-items: start;
         min-width: 0;
         width: 100%;
@@ -478,16 +478,16 @@
 
     .intro {
         display: grid;
-        gap: var(--gap-1);
+        gap: var(--gap-3);
     }
 
     .section-heading {
         display: grid;
-        gap: var(--gap);
+        gap: var(--gap-1);
         width: min(100%, var(--demo-copy-width));
 
         &.intro {
-            gap: var(--gap-1);
+            gap: var(--gap-3);
         }
     }
 
@@ -511,7 +511,7 @@
     .control-group,
     .wide-stack {
         display: grid;
-        gap: var(--gap-1);
+        gap: var(--gap-3);
         justify-items: start;
         min-width: 0;
         width: 100%;
@@ -548,7 +548,7 @@
         align-items: center;
         display: flex;
         flex-wrap: wrap;
-        gap: var(--gap-1);
+        gap: var(--gap-3);
         min-width: 0;
         width: 100%;
     }
@@ -567,7 +567,7 @@
 
     .card-button-text {
         display: grid;
-        gap: calc(var(--gap) / 2);
+        gap: calc(var(--gap-1) / 2);
         width: 100%;
         min-width: 0;
     }

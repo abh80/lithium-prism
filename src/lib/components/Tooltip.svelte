@@ -81,7 +81,7 @@
         position: relative;
         width: fit-content;
         height: fit-content;
-        gap: var(--gap);
+        gap: var(--gap-1);
     }
 
     .tooltip-container {
