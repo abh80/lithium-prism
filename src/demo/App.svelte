@@ -96,41 +96,51 @@
         <div class="section-heading">
             <Prism.Text variant="heading">Buttons</Prism.Text>
             <Prism.Text variant="caption"
-            >With icons, primary, selected, and disabled states.</Prism.Text>
+            >With and without icons. Default, primary, and transparent in all states.</Prism.Text>
         </div>
 
         <div class="button-grid">
             <div class="control-group">
                 <Prism.Text variant="subheading">Default</Prism.Text>
                 <div class="row">
-                    <Prism.Button>Plain</Prism.Button>
-                    <Prism.Button><Prism.IconCheck /> Confirm</Prism.Button>
-                    <Prism.Button><Prism.IconArrowLeft /> Back</Prism.Button>
+                    <Prism.Button>Continue</Prism.Button>
+                    <Prism.Button><Prism.IconDownload /> Download</Prism.Button>
                     <Prism.Button
                         circle
                         aria-label="Open link"
                     ><Prism.IconExternalLink /></Prism.Button>
+                    <Prism.Button selected><Prism.IconCheck /> Selected</Prism.Button>
+                    <Prism.Button disabled><Prism.IconX /> Disabled</Prism.Button>
                 </div>
             </div>
 
             <div class="control-group">
                 <Prism.Text variant="subheading">Primary</Prism.Text>
                 <div class="row">
-                    <Prism.Button primary><Prism.IconArrowRight /> Continue</Prism.Button>
+                    <Prism.Button primary>Continue</Prism.Button>
                     <Prism.Button primary><Prism.IconDownload /> Download</Prism.Button>
                     <Prism.Button
                         primary
                         circle
-                        aria-label="Done"
-                    ><Prism.IconCheck /></Prism.Button>
+                        aria-label="Open link"
+                    ><Prism.IconExternalLink /></Prism.Button>
+                    <Prism.Button primary selected><Prism.IconCheck /> Selected</Prism.Button>
+                    <Prism.Button primary disabled><Prism.IconX /> Disabled</Prism.Button>
                 </div>
             </div>
 
             <div class="control-group">
-                <Prism.Text variant="subheading">States</Prism.Text>
+                <Prism.Text variant="subheading">Transparent</Prism.Text>
                 <div class="row">
-                    <Prism.Button selected><Prism.IconCheck /> Selected</Prism.Button>
-                    <Prism.Button disabled><Prism.IconDownload /> Disabled</Prism.Button>
+                    <Prism.Button transparent>Continue</Prism.Button>
+                    <Prism.Button transparent><Prism.IconDownload /> Download</Prism.Button>
+                    <Prism.Button
+                        transparent
+                        circle
+                        aria-label="Open link"
+                    ><Prism.IconExternalLink /></Prism.Button>
+                    <Prism.Button transparent selected><Prism.IconCheck /> Selected</Prism.Button>
+                    <Prism.Button transparent disabled><Prism.IconX /> Disabled</Prism.Button>
                 </div>
             </div>
         </div>

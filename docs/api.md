@@ -69,8 +69,8 @@ Text variants are `display`, `title`, `heading`, `subheading`, `body`, and `capt
 
 ## Buttons and links
 
-`Button` accepts native button attributes plus the Helium style props `primary`, `card`, `selected`,
-and `circle`.
+`Button` accepts native button attributes plus the Helium style props `primary`, `transparent`,
+`card`, `selected`, and `circle`. `primary` and `transparent` are mutually exclusive.
 
 ```svelte
 <script>
@@ -79,6 +79,7 @@ and `circle`.
 
 <Button>Cancel</Button>
 <Button primary>Continue <IconArrowRight /></Button>
+<Button transparent>Secondary action</Button>
 <Button disabled><IconDownload /> Download</Button>
 <Button selected>Selected</Button>
 <Button circle aria-label="Continue"><IconArrowRight /></Button>
