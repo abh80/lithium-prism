@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import type { HTMLInputAttributes } from "svelte/elements";
+    import type { ClassValue, HTMLInputAttributes } from "svelte/elements";
     import IconCheck from "./icons/IconCheck.svelte";
 
     type CheckboxLabelProps =
@@ -20,8 +20,9 @@
             "aria-labelledby": string;
         };
 
-    type Props = Omit<HTMLInputAttributes, "id" | "type" | "checked"> & {
+    type Props = Omit<HTMLInputAttributes, "class" | "id" | "type" | "checked"> & {
         id: string;
+        class?: ClassValue;
         checked?: boolean;
     } & CheckboxLabelProps;
 
@@ -51,7 +52,16 @@
     });
 </script>
 
-<label class={["checkbox", disabled && "disabled", toggling && "toggling", className]}>
+<label
+    class={[
+        {
+            checkbox: true,
+            disabled,
+            toggling,
+        },
+        className,
+    ]}
+>
     <input {id} type="checkbox" bind:checked {disabled} {...rest} />
     <span class="checkbox-control" aria-hidden="true">
         <IconCheck />

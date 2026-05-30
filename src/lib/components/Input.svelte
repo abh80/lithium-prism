@@ -1,15 +1,16 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import type { HTMLInputAttributes } from "svelte/elements";
+    import type { ClassValue, HTMLInputAttributes } from "svelte/elements";
 
     type NativeInputProps = Omit<
         HTMLInputAttributes,
-        "aria-label" | "id" | "input" | "size" | "value" | "width"
+        "aria-label" | "class" | "id" | "input" | "size" | "value" | "width"
     >;
 
     type Props = NativeInputProps & {
         id: string;
         "aria-label": string;
+        class?: ClassValue;
         value?: HTMLInputAttributes["value"];
         small?: boolean;
         width?: string;
@@ -35,7 +36,14 @@
 </script>
 
 <label
-    class={["input-field", small && "small", disabled && "disabled", className]}
+    class={[
+        {
+            "input-field": true,
+            small,
+            disabled,
+        },
+        className,
+    ]}
     style:width
 >
     {#if leading}

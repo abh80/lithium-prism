@@ -1,16 +1,17 @@
 <script lang="ts">
-    import type { HTMLInputAttributes } from "svelte/elements";
+    import type { ClassValue, HTMLInputAttributes } from "svelte/elements";
     import Input from "./Input.svelte";
     import IconSearch from "./icons/IconSearch.svelte";
 
     type NativeInputProps = Omit<
         HTMLInputAttributes,
-        "aria-label" | "id" | "input" | "type" | "value" | "size" | "width"
+        "aria-label" | "class" | "id" | "input" | "type" | "value" | "size" | "width"
     >;
 
     type Props = NativeInputProps & {
         id: string;
         "aria-label": string;
+        class?: ClassValue;
         value?: string;
         input?: HTMLInputElement | undefined;
         container?: HTMLDivElement | undefined;
@@ -25,7 +26,7 @@
         container = $bindable(),
         small = false,
         width,
-        class: className,
+        class: className = "",
         placeholder,
         "aria-label": ariaLabel,
         ...rest
