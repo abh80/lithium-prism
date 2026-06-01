@@ -1,12 +1,632 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Helium Prism Components Demo</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Lithium Prism Components Demo</title>
+        <link rel="stylesheet" href="/src/theme/lithium.css" />
+        <script type="module" src="/src/index.ts"></script>
+        <style>
+            body {
+                margin: 0;
+                background: var(--background);
+            }
+
+            .demo-shell {
+                --demo-content-width: 960px;
+                --demo-copy-width: 660px;
+
+                position: relative;
+                z-index: 1;
+                display: grid;
+                gap: clamp(30px, 5vw, 48px);
+                width: min(100%, var(--demo-content-width));
+                margin: 0 auto;
+                padding: clamp(32px, 6vw, 64px) clamp(16px, 4vw, 32px);
+            }
+
+            .demo-shell.glass-children .showcase-section {
+                backdrop-filter: var(--glass-filter);
+                -webkit-backdrop-filter: var(--glass-filter);
+                background-color: color-mix(in srgb, var(--bg-surface) 55%, transparent);
+                border-radius: var(--card-border-radius);
+                padding: clamp(16px, 3vw, 28px);
+            }
+
+            .showcase-section {
+                display: grid;
+                gap: var(--gap-4);
+                justify-items: start;
+                min-width: 0;
+                width: 100%;
+            }
+
+            .intro {
+                display: grid;
+                gap: var(--gap-3);
+            }
+
+            .section-heading {
+                display: grid;
+                gap: var(--gap-1);
+                width: min(100%, var(--demo-copy-width));
+            }
+            .section-heading.intro {
+                gap: var(--gap-3);
+            }
+
+            .type-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+                gap: clamp(16px, 3vw, 24px);
+                width: 100%;
+                align-items: start;
+            }
+
+            .button-grid {
+                display: flex;
+                flex-direction: column;
+                gap: clamp(16px, 3vw, 24px);
+                width: min(100%, var(--demo-copy-width));
+                align-items: stretch;
+            }
+
+            .type-stack,
+            .control-group,
+            .wide-stack {
+                display: grid;
+                gap: var(--gap-3);
+                justify-items: start;
+                min-width: 0;
+                width: 100%;
+            }
+
+            .wide-stack {
+                width: min(100%, var(--demo-copy-width));
+            }
+
+            .input-stack {
+                display: grid;
+                gap: 18px;
+                width: min(100%, var(--demo-copy-width));
+            }
+
+            .shimmer-panel {
+                width: min(calc(100vw - 32px), 1280px);
+                justify-self: center;
+                margin-inline: calc((100% - min(calc(100vw - 32px), 1280px)) / 2);
+                aspect-ratio: 16 / 9;
+                min-height: clamp(260px, 52vw, 520px);
+                max-height: 760px;
+                overflow: hidden;
+                border-radius: var(--card-border-radius);
+                outline: 1px solid var(--lithium-elevated-10);
+                outline-offset: -1px;
+            }
+            .shimmer-panel[hidden] {
+                display: none;
+            }
+            .shimmer-panel lit-gradient-shimmer {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+
+            lit-gradient-shimmer.demo-background-shimmer {
+                position: fixed;
+                inset: 0;
+                z-index: 0;
+                display: block;
+            }
+
+            .row {
+                align-items: center;
+                display: flex;
+                flex-wrap: wrap;
+                gap: var(--gap-3);
+                min-width: 0;
+                width: 100%;
+            }
+
+            .input-stack lit-search-bar,
+            .input-stack lit-input,
+            .input-stack lit-dropdown {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            .card-button-text {
+                display: grid;
+                gap: calc(var(--gap-1) / 2);
+                width: 100%;
+                min-width: 0;
+            }
+        </style>
     </head>
     <body>
-        <div id="app"></div>
-        <script type="module" src="/src/demo/main.ts"></script>
+        <main class="demo-shell">
+            <!-- Intro -->
+            <section class="showcase-section">
+                <div class="section-heading intro">
+                    <lit-helium-logo height="32px"></lit-helium-logo>
+                    <lit-text variant="caption">
+                        Prism: shared UI primitives for Helium web interfaces.
+                    </lit-text>
+                    <div class="row">
+                        <lit-outer-link button primary href="https://helium.computer/">
+                            <lit-icon name="arrow-right"></lit-icon>
+                            Get Helium Browser
+                        </lit-outer-link>
+                        <lit-outer-link button href="https://github.com/imputnet/helium-prism">
+                            <lit-icon name="external-link"></lit-icon>
+                            Prism on GitHub
+                        </lit-outer-link>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Text -->
+            <section class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Text</lit-text>
+                    <lit-text variant="caption"
+                        >Native element styles and the reusable Text primitive.</lit-text
+                    >
+                </div>
+
+                <div class="type-grid">
+                    <div class="type-stack">
+                        <h1>Heading one</h1>
+                        <h2>Heading two</h2>
+                        <h3>Heading three</h3>
+                        <h4>Heading four</h4>
+                        <h5>Heading five</h5>
+                        <h6>Heading six</h6>
+                        <p>
+                            Paragraph text uses the shared secondary tone and compact Helium line
+                            height.
+                        </p>
+                    </div>
+
+                    <div class="type-stack">
+                        <lit-text variant="display">Display text</lit-text>
+                        <lit-text variant="title">Title text</lit-text>
+                        <lit-text variant="heading">Heading text</lit-text>
+                        <lit-text variant="subheading">Subheading text</lit-text>
+                        <lit-text variant="body">Body text</lit-text>
+                        <lit-text variant="caption">Caption text</lit-text>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Buttons -->
+            <section class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Buttons</lit-text>
+                    <lit-text variant="caption"
+                        >With and without icons. Default, primary, and transparent in all
+                        states.</lit-text
+                    >
+                </div>
+
+                <div class="button-grid">
+                    <div class="control-group">
+                        <lit-text variant="subheading">Default</lit-text>
+                        <div class="row">
+                            <lit-button
+                                >Continue <lit-icon name="arrow-right"></lit-icon
+                            ></lit-button>
+                            <lit-button><lit-icon name="download"></lit-icon> Download</lit-button>
+                            <lit-button circle aria-label="Open link"
+                                ><lit-icon name="external-link"></lit-icon
+                            ></lit-button>
+                            <lit-button selected
+                                ><lit-icon name="check"></lit-icon> Selected</lit-button
+                            >
+                            <lit-button disabled
+                                ><lit-icon name="x"></lit-icon> Disabled</lit-button
+                            >
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <lit-text variant="subheading">Primary</lit-text>
+                        <div class="row">
+                            <lit-button primary
+                                >Continue <lit-icon name="arrow-right"></lit-icon
+                            ></lit-button>
+                            <lit-button primary
+                                ><lit-icon name="download"></lit-icon> Download</lit-button
+                            >
+                            <lit-button primary circle aria-label="Open link"
+                                ><lit-icon name="external-link"></lit-icon
+                            ></lit-button>
+                            <lit-button primary selected
+                                ><lit-icon name="check"></lit-icon> Selected</lit-button
+                            >
+                            <lit-button primary disabled
+                                ><lit-icon name="x"></lit-icon> Disabled</lit-button
+                            >
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <lit-text variant="subheading">Transparent</lit-text>
+                        <div class="row">
+                            <lit-button transparent
+                                >Continue <lit-icon name="arrow-right"></lit-icon
+                            ></lit-button>
+                            <lit-button transparent
+                                ><lit-icon name="download"></lit-icon> Download</lit-button
+                            >
+                            <lit-button transparent circle aria-label="Open link"
+                                ><lit-icon name="external-link"></lit-icon
+                            ></lit-button>
+                            <lit-button transparent selected
+                                ><lit-icon name="check"></lit-icon> Selected</lit-button
+                            >
+                            <lit-button transparent disabled
+                                ><lit-icon name="x"></lit-icon> Disabled</lit-button
+                            >
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Shimmer -->
+            <section class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Shimmer</lit-text>
+                    <lit-text variant="caption"
+                        >Shimmering gradient effect with idle, intro, and emphasis states.</lit-text
+                    >
+                </div>
+
+                <div class="wide-stack">
+                    <div class="row">
+                        <lit-button id="shimmer-remount">Remount</lit-button>
+                        <lit-button id="shimmer-intro">Replay intro</lit-button>
+                        <lit-button id="shimmer-emphasize">Emphasize</lit-button>
+                    </div>
+                    <div class="row">
+                        <lit-checkbox id="demo-shimmer-visible" checked>Visible</lit-checkbox>
+                        <lit-checkbox id="demo-shimmer-intro" checked>Intro on mount</lit-checkbox>
+                        <lit-checkbox id="demo-shimmer-background" checked>Background</lit-checkbox>
+                    </div>
+                </div>
+
+                <div class="shimmer-panel" id="shimmer-panel"></div>
+            </section>
+
+            <!-- Links -->
+            <section class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Links</lit-text>
+                    <lit-text variant="caption">Regular and button links.</lit-text>
+                </div>
+
+                <div class="control-group">
+                    <div class="row">
+                        <lit-outer-link href="https://helium.computer"
+                            >Plain external link</lit-outer-link
+                        >
+                        <lit-outer-link href="#misc">Hash link</lit-outer-link>
+                    </div>
+                </div>
+                <lit-outer-link button href="https://helium.computer">
+                    <lit-icon name="external-link"></lit-icon>
+                    Button-style external link
+                </lit-outer-link>
+            </section>
+
+            <!-- Card Actions -->
+            <section class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Card Actions</lit-text>
+                    <lit-text variant="caption"
+                        >Large action buttons for richer interactions and different
+                        context.</lit-text
+                    >
+                </div>
+
+                <div class="wide-stack">
+                    <lit-button card>
+                        <div class="card-button-text">
+                            <lit-text variant="subheading">Privacy and security</lit-text>
+                            <lit-text variant="body"
+                                >Card buttons can hold titles, descriptions, and trailing
+                                icons.</lit-text
+                            >
+                        </div>
+                        <lit-icon name="arrow-right"></lit-icon>
+                    </lit-button>
+
+                    <lit-button card>
+                        <lit-icon name="download"></lit-icon>
+                        <div class="card-button-text">
+                            <lit-text variant="subheading">Download an archive</lit-text>
+                            <lit-text variant="body"
+                                >The same card action layout with a leading icon.</lit-text
+                            >
+                        </div>
+                    </lit-button>
+
+                    <lit-button card>
+                        <lit-icon name="check"></lit-icon>
+                        <div class="card-button-text">
+                            <lit-text variant="subheading">Helium services</lit-text>
+                            <lit-text variant="body"
+                                >A card action can show leading and trailing icons together. Card's
+                                text can also be very long, so it has to be split into several
+                                lines.</lit-text
+                            >
+                        </div>
+                        <lit-icon name="arrow-right"></lit-icon>
+                    </lit-button>
+
+                    <lit-card-link href="https://helium.computer">
+                        <div class="card-button-text">
+                            <lit-text variant="subheading">External link</lit-text>
+                            <lit-text variant="body"
+                                >Outer link action card with supporting text.</lit-text
+                            >
+                        </div>
+                    </lit-card-link>
+                </div>
+            </section>
+
+            <!-- Toggles -->
+            <section class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Toggles</lit-text>
+                    <lit-text variant="caption"
+                        >Preference controls with title, description, and switch state.</lit-text
+                    >
+                </div>
+
+                <div class="wide-stack">
+                    <lit-toggle
+                        checked
+                        name="Zen mode"
+                        desc="Hide toolbar and tab strip until hovering near their edges"
+                    ></lit-toggle>
+                    <lit-toggle
+                        name="Background action confirmation toasts"
+                        desc="Shows a toast notification when you copy content, such as links and images, or open a new background tab in Zen mode"
+                    ></lit-toggle>
+                    <lit-toggle
+                        checked
+                        name="Show a rounded frame around web contents"
+                    ></lit-toggle>
+                    <lit-toggle
+                        name="Use ⌘+S to toggle vertical tabs in Vertical layout, and even more text to make it wrap to next line"
+                    ></lit-toggle>
+                </div>
+            </section>
+
+            <!-- Inputs -->
+            <section class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Inputs</lit-text>
+                    <lit-text variant="caption"
+                        >Checkbox, search bar, flexible input fields, size options, and
+                        accessories.</lit-text
+                    >
+                </div>
+
+                <div class="control-group">
+                    <lit-text variant="subheading">Checkbox</lit-text>
+                    <div class="row">
+                        <lit-checkbox id="demo-checkbox-text" checked>Checkbox text</lit-checkbox>
+                        <lit-checkbox
+                            id="demo-checkbox-empty"
+                            aria-label="Empty checkbox"
+                        ></lit-checkbox>
+                    </div>
+                </div>
+
+                <div class="input-stack">
+                    <div class="control-group">
+                        <lit-text variant="subheading">SearchBar</lit-text>
+                        <lit-search-bar
+                            id="demo-regular-search"
+                            placeholder="Search bangs"
+                            aria-label="Search bangs"
+                        ></lit-search-bar>
+                        <lit-search-bar
+                            id="demo-small-search"
+                            placeholder="Search shortcuts"
+                            aria-label="Search shortcuts"
+                        ></lit-search-bar>
+                    </div>
+                    <div class="control-group">
+                        <lit-text variant="subheading">Input</lit-text>
+                        <lit-input
+                            id="demo-medium-input"
+                            placeholder="Text input"
+                            aria-label="Text input"
+                        ></lit-input>
+                        <lit-input
+                            id="demo-small-input"
+                            small
+                            placeholder="Small input with custom width"
+                            aria-label="Small input with custom width"
+                            width="320px"
+                        ></lit-input>
+                    </div>
+
+                    <div class="control-group">
+                        <lit-text variant="subheading">Accessories</lit-text>
+                        <lit-input
+                            id="demo-email-input"
+                            placeholder="Email address"
+                            aria-label="Email address"
+                        >
+                            <lit-icon slot="leading" name="arrow-right"></lit-icon>
+                        </lit-input>
+                        <lit-input
+                            id="demo-shortcut-input"
+                            value="Command K"
+                            aria-label="Keyboard shortcut"
+                        >
+                            <lit-icon slot="trailing" name="chevron-down"></lit-icon>
+                        </lit-input>
+                        <lit-input
+                            id="demo-disabled-input"
+                            placeholder="Disabled input"
+                            aria-label="Disabled input"
+                            disabled
+                        ></lit-input>
+                    </div>
+
+                    <div class="control-group">
+                        <lit-text variant="subheading">Dropdown</lit-text>
+                        <lit-dropdown
+                            id="demo-browser-dropdown"
+                            placeholder="Custom width"
+                            width="260px"
+                            aria-label="Browser"
+                        >
+                            <div slot="option" data-value="helium" role="option">Helium</div>
+                            <div slot="option" data-value="safari" role="option">Safari</div>
+                            <div slot="option" data-value="firefox" role="option">Firefox</div>
+                        </lit-dropdown>
+                        <lit-dropdown
+                            id="demo-channel-dropdown"
+                            value="stable"
+                            aria-label="Release channel"
+                        >
+                            <div slot="option" data-value="stable" role="option">
+                                Stable channel
+                            </div>
+                            <div slot="option" data-value="beta" role="option">Beta channel</div>
+                            <div slot="option" data-value="alpha" role="option">Alpha channel</div>
+                        </lit-dropdown>
+                        <lit-dropdown
+                            id="demo-disabled-dropdown"
+                            placeholder="Disabled dropdown"
+                            aria-label="Disabled dropdown"
+                            disabled
+                        ></lit-dropdown>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Misc -->
+            <section id="misc" class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Misc</lit-text>
+                    <lit-text variant="caption"
+                        >Loading, shimmer, checkbox, skeleton, copy, and tooltip states.</lit-text
+                    >
+                </div>
+
+                <div class="control-group">
+                    <lit-text variant="subheading">HeliumLogo</lit-text>
+                    <div class="row">
+                        <lit-helium-logo></lit-helium-logo>
+                        <lit-helium-text></lit-helium-text>
+                    </div>
+                    <div class="row">
+                        <lit-helium-logo height="48px"></lit-helium-logo>
+                        <lit-helium-text height="48px"></lit-helium-text>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <lit-text variant="subheading">Spinner</lit-text>
+                    <div class="row">
+                        <lit-spinner></lit-spinner>
+                        <lit-button aria-label="Loading" disabled>
+                            <lit-spinner size="18"></lit-spinner>
+                            Download
+                        </lit-button>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <lit-text variant="subheading">Skeleton</lit-text>
+                    <div class="row">
+                        <lit-skeleton width="38px" height="38px"></lit-skeleton>
+                        <lit-skeleton width="220px" height="38px"></lit-skeleton>
+                        <lit-skeleton width="120px" height="38px"></lit-skeleton>
+                        <lit-skeleton width="220px" height="18px"></lit-skeleton>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <lit-text variant="subheading">CopyIcon</lit-text>
+                    <div class="row">
+                        <lit-copy-icon value="https://helium.computer"></lit-copy-icon>
+                        <lit-text variant="caption">Click to copy</lit-text>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <lit-text variant="subheading">Tooltip</lit-text>
+                    <lit-tooltip text="Be kind and enjoy the sun more">
+                        <lit-button>I have a tip, hover me</lit-button>
+                    </lit-tooltip>
+                </div>
+            </section>
+        </main>
+
+        <script type="module">
+            // Interactive shimmer controls (replaces the Svelte demo's reactive state).
+            const shell = document.querySelector(".demo-shell");
+            const panel = document.querySelector("#shimmer-panel");
+            const visibleChk = document.querySelector("#demo-shimmer-visible");
+            const introChk = document.querySelector("#demo-shimmer-intro");
+            const backgroundChk = document.querySelector("#demo-shimmer-background");
+
+            let current = null;
+
+            const isBackground = () => backgroundChk.hasAttribute("checked");
+            const isVisible = () => visibleChk.hasAttribute("checked");
+            const introOnMount = () => introChk.hasAttribute("checked");
+
+            function clearShimmer() {
+                if (current) {
+                    current.remove();
+                    current = null;
+                }
+            }
+
+            function mountShimmer() {
+                clearShimmer();
+                const background = isBackground();
+                panel.hidden = background;
+                shell.classList.toggle("glass-children", background);
+                if (!isVisible()) return;
+
+                const el = document.createElement("lit-gradient-shimmer");
+                if (!introOnMount()) el.setAttribute("no-intro", "");
+                if (background) {
+                    el.setAttribute("background", "");
+                    el.classList.add("demo-background-shimmer");
+                    document.body.prepend(el);
+                } else {
+                    panel.appendChild(el);
+                }
+                current = el;
+            }
+
+            document
+                .querySelector("#shimmer-remount")
+                .addEventListener("click", () => mountShimmer());
+            document
+                .querySelector("#shimmer-intro")
+                .addEventListener("click", () => current?.intro?.());
+            document
+                .querySelector("#shimmer-emphasize")
+                .addEventListener("click", () => current?.emphasize?.());
+
+            for (const chk of [visibleChk, introChk, backgroundChk]) {
+                chk.addEventListener("change", () => mountShimmer());
+            }
+
+            // lit-gradient-shimmer is registered by the module import; mount once ready.
+            customElements.whenDefined("lit-gradient-shimmer").then(() => mountShimmer());
+        </script>
     </body>
 </html>
