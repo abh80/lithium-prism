@@ -1,0 +1,194 @@
+:root {
+    --font: "Instrument Sans Variable", system-ui, Helvetica, Arial, sans-serif;
+
+    --primary: #0d1c64;
+    --secondary: #475a7f;
+    --tertiary: #646f9a;
+    --white: #ffffff;
+
+    --lithium-blue: #3450d1;
+    --lithium-blue-hover: #3a58db;
+    --lithium-blue-press: #304bc2;
+
+    --bg-surface: #fbfcff;
+    --bg-gradient-start: #f4f7ff;
+    --bg-gradient-end: #acbbff;
+
+    --background: var(--bg-surface);
+
+    --tooltip-bg: #eaedfd;
+    --tooltip-shadow: color-mix(in srgb, #9ba6d8 50%, transparent);
+
+    --lithium-elevated: #3450d1;
+    --lithium-elevated-5: color-mix(in srgb, var(--lithium-elevated) 5%, transparent);
+    --lithium-elevated-7: color-mix(in srgb, var(--lithium-elevated) 7%, transparent);
+    --lithium-elevated-10: color-mix(in srgb, var(--lithium-elevated) 10%, transparent);
+    --lithium-elevated-15: color-mix(in srgb, var(--lithium-elevated) 15%, transparent);
+    --lithium-elevated-20: color-mix(in srgb, var(--lithium-elevated) 20%, transparent);
+    --lithium-elevated-25: color-mix(in srgb, var(--lithium-elevated) 25%, transparent);
+    --lithium-elevated-30: color-mix(in srgb, var(--lithium-elevated) 30%, transparent);
+    --lithium-elevated-40: color-mix(in srgb, var(--lithium-elevated) 40%, transparent);
+    --lithium-elevated-50: color-mix(in srgb, var(--lithium-elevated) 50%, transparent);
+
+    --gap-1: 6px;
+    --gap-2: 8px;
+    --gap-3: 12px;
+    --gap-4: 20px;
+    --content-padding: 32px;
+    --section-padding: 48px;
+
+    --mid-border-radius: 12px;
+    --card-border-radius: 20px;
+    --shimmer-size: 350px;
+
+    --glass-filter: blur(12px) saturate(110%);
+
+    font-family: var(--font);
+    line-height: 120%;
+    font-weight: 500;
+    letter-spacing: -1%;
+
+    color: var(--primary);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary: #e3e6f2;
+        --secondary: #8f9bcb;
+        --tertiary: #7985b2;
+        --white: var(--primary);
+
+        --tooltip-bg: #1d2a5d;
+        --tooltip-shadow: color-mix(in srgb, var(--tooltip-bg) 40%, transparent);
+
+        --bg-surface: #0e1123;
+        --bg-gradient-start: #151932;
+        --bg-gradient-end: #2d3c7f;
+
+        --lithium-elevated: #b3beec;
+        --glass-filter: blur(12px);
+    }
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+    background: var(--background);
+}
+
+::selection {
+    color: var(--primary);
+    background-color: var(--lithium-elevated-30);
+}
+
+input {
+    font-family: var(--font);
+}
+
+body {
+    margin: 0;
+    color: var(--primary);
+    background: var(--background);
+    font-family: var(--font);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 500;
+    margin-block: 0;
+    margin-inline: 0;
+    line-height: 120%;
+}
+
+h1,
+h2 {
+    letter-spacing: -2%;
+    line-height: 110%;
+}
+
+h1 {
+    font-size: 43px;
+}
+
+h2 {
+    font-size: 36px;
+}
+
+h3 {
+    font-size: 24px;
+}
+
+h4 {
+    font-size: 17px;
+}
+
+h5 {
+    font-size: 14px;
+}
+
+h6 {
+    font-size: 12px;
+}
+
+p,
+a,
+li {
+    margin: 0;
+    font-size: 16px;
+    line-height: 122%;
+    color: var(--secondary);
+}
+
+strong {
+    font-weight: 600;
+}
+
+a {
+    color: inherit;
+    text-underline-offset: 4px;
+
+    &:not(.button):focus-visible {
+        border-radius: 5px;
+    }
+}
+
+svg,
+img {
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-user-drag: none;
+}
+
+button {
+    appearance: none;
+    letter-spacing: inherit;
+    word-spacing: unset;
+    line-height: inherit;
+    text-indent: 0;
+    text-shadow: none;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin: 0;
+    padding-block: 0;
+    padding-inline: 0;
+    border: none;
+    font-family: inherit;
+    font-weight: inherit;
+}
