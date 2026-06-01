@@ -1,54 +1,63 @@
 {
-    "name": "@imput/helium-prism",
-    "version": "0.1.3",
-    "description": "Shared UI components of Helium web interfaces for Svelte",
+    "name": "@abh80/lithium-prism",
+    "version": "0.1.0",
+    "description": "Standalone Web Components UI kit — a fork of imput/helium-prism, ported from Svelte to native custom elements",
     "type": "module",
     "packageManager": "pnpm@11.5.0",
     "license": "GPL-3.0-only",
+    "author": "abh80",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/imputnet/helium-prism.git"
+        "url": "git+https://github.com/abh80/lithium-prism.git"
     },
     "bugs": {
-        "url": "https://github.com/imputnet/helium-prism/issues"
+        "url": "https://github.com/abh80/lithium-prism/issues"
     },
-    "homepage": "https://github.com/imputnet/helium-prism#readme",
-    "sideEffects": [
-        "**/*.css",
-        "**/*.svelte"
-    ],
-    "svelte": "./dist/index.js",
+    "homepage": "https://github.com/abh80/lithium-prism#readme",
+    "module": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
-            "svelte": "./dist/index.js",
             "default": "./dist/index.js"
         },
-        "./styles.css": "./dist/styles.css",
+        "./element/*": {
+            "types": "./dist/components/*.d.ts",
+            "default": "./dist/components/*.js"
+        },
+        "./lithium.css": "./dist/lithium.css",
         "./package.json": "./package.json"
     },
     "files": [
         "dist"
     ],
+    "sideEffects": [
+        "**/*.css",
+        "src/index.ts",
+        "src/components/*.ts"
+    ],
     "scripts": {
-        "check": "svelte-check --tsconfig ./tsconfig.json",
         "dev": "vite",
-        "generate:index": "deno run --allow-read=src/lib/components --allow-write=src/lib/index.ts scripts/generate-index.ts",
-        "pack:dry-run": "pnpm pack --dry-run",
-        "package": "svelte-package --input src/lib --tsconfig ./tsconfig.json && cp src/css/styles.css dist/styles.css",
-        "prepack": "pnpm run package"
-    },
-    "peerDependencies": {
-        "svelte": ">=5.20.0"
+        "build": "vite build && tsc --emitDeclarationOnly --outDir dist",
+        "check": "tsc --noEmit",
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix",
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "devDependencies": {
-        "@sveltejs/package": "^2.0.0",
-        "@sveltejs/vite-plugin-svelte": "^5.0.0",
-        "svelte": "^5.20.0",
-        "svelte-check": "^4.0.0",
+        "@eslint/js": "^9.0.0",
+        "eslint": "^9.0.0",
+        "eslint-config-prettier": "^9.1.0",
+        "globals": "^15.0.0",
+        "happy-dom": "^15.0.0",
+        "prettier": "^3.3.0",
         "typescript": "^5.6.0",
-        "vite": "^6.0.0"
+        "typescript-eslint": "^8.0.0",
+        "vite": "^6.0.0",
+        "vitest": "^2.1.0"
     },
     "engines": {
         "node": ">=20"

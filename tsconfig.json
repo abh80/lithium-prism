@@ -1,25 +1,16 @@
 {
     "compilerOptions": {
-        "allowImportingTsExtensions": true,
-        "checkJs": true,
-        "declaration": true,
-        "declarationMap": true,
-        "exactOptionalPropertyTypes": true,
-        "isolatedModules": true,
+        "target": "ES2022",
+        "module": "ESNext",
         "moduleResolution": "bundler",
-        "noEmit": true,
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "sourceMap": true,
+        "lib": ["ES2022", "DOM", "DOM.Iterable"],
+        "declaration": true,
+        "emitDeclarationOnly": false,
         "strict": true,
-        "verbatimModuleSyntax": true
+        "useDefineForClassFields": false,
+        "experimentalDecorators": false,
+        "verbatimModuleSyntax": true,
+        "skipLibCheck": true
     },
-    "include": [
-        "src/**/*.d.ts",
-        "src/**/*.js",
-        "src/**/*.svelte",
-        "src/**/*.ts",
-        "svelte.config.js",
-        "vite.config.ts"
-    ]
+    "include": ["src"]
 }
