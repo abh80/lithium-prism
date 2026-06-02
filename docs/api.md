@@ -1,9 +1,14 @@
-# Helium Prism API
+# Lithium Prism API
+
+Standalone native Web Components. Every primitive is a custom element registered as
+`lit-<name>`; works in any framework or none. A fork of
+[imput/helium-prism](https://github.com/imputnet/helium-prism), ported from Svelte.
 
 ### Navigation
 
 - [Package exports](#package-exports)
 - [Setup](#setup)
+- [Theming](#theming)
 - [Text](#text)
 - [Buttons and links](#buttons-and-links)
 - [Inputs](#inputs)
@@ -14,262 +19,264 @@
 
 ## Package exports
 
-- `.`: Svelte component and icon exports from `src/lib/index.ts`
-- `./styles.css`: shared Helium tokens, typography, form, and button styles
+- `.`: side-effect entry that registers **every** element on import, and re-exports the
+  element classes from `src/index.ts`.
+- `./element/lit-button` (and any `lit-*`): registers a **single** element — tree-shakeable.
+- `./lithium.css`: design tokens (CSS custom properties) + the light/dark theme. Load once.
 
-Components exported from the package:
+Elements registered by the barrel:
 
-- `Button`
-- `CardLink`, `OuterLink`
-- `Checkbox`, `Dropdown`, `Input`, `SearchBar`, `Toggle`
-- `CopyIcon`, `GradientShimmer`, `HeliumLogo`, `Skeleton`, `Spinner`, `Text`, `Tooltip`
-- Shared icon components listed in [Icons](#icons)
+- `lit-text`
+- `lit-button`, `lit-card-link`, `lit-outer-link`
+- `lit-input`, `lit-search-bar`, `lit-dropdown`, `lit-checkbox`, `lit-toggle`
+- `lit-gradient-shimmer`, `lit-spinner`, `lit-skeleton`, `lit-copy-icon`, `lit-tooltip`
+- `lit-helium-logo`, `lit-helium-text`
+- `lit-icon` (single registry element, see [Icons](#icons))
 
 ## Setup
 
-Import the stylesheet once before using the components:
+Load the theme stylesheet once, then import the elements.
 
-```svelte
-<script>
-    import "@imput/helium-prism/styles.css";
+```html
+<link rel="stylesheet" href="@abh80/lithium-prism/lithium.css" />
+<script type="module">
+    import "@abh80/lithium-prism"; // registers every element
 </script>
+
+<lit-button primary>Continue</lit-button>
 ```
 
-Import components from the package root:
+Tree-shake to only the elements you use:
 
-```svelte
-<script>
-    import { Button } from "@imput/helium-prism";
-</script>
+```js
+import "@abh80/lithium-prism/element/lit-button";
+import "@abh80/lithium-prism/element/lit-toggle";
 ```
+
+CDN, no build step:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/@abh80/lithium-prism/dist/lithium.css" />
+<script type="module" src="https://unpkg.com/@abh80/lithium-prism"></script>
+```
+
+The package augments `HTMLElementTagNameMap`, so `document.createElement("lit-toggle")` and
+`querySelector("lit-toggle")` are typed.
+
+**Framework notes.** Custom elements work in any framework. Attributes are set as-is; rich
+state uses JS properties; state changes are `CustomEvent`s (not callback props):
+
+- React (19+): pass attributes/properties directly and listen with `onChange` via a ref or
+  `addEventListener`. Two-way binding is manual.
+- Vue: `<lit-toggle :checked="on" @change="on = $event.detail.checked" />`.
+- Vanilla: `el.checked = true; el.addEventListener("change", e => …)`.
+
+## Theming
+
+Colors come from CSS custom properties defined in `lithium.css` and resolved through the
+shadow boundary (custom properties inherit into shadow roots). Override them on `:root` (or
+any subtree) to retheme. Light/dark switch automatically via `prefers-color-scheme`.
+
+```css
+:root {
+    --lithium-blue: #c2410c; /* accent: primary button, toggle-on, checkbox, focus */
+}
+```
+
+Key tokens: `--lithium-blue` (+`-hover`/`-press`), the `--lithium-elevated-*` surface-tint
+scale, `--bg-surface`/`--background`, `--primary`/`--secondary`/`--tertiary` text, and the
+`--tooltip-*` surface. Component internals consume these, so an override cascades everywhere.
 
 ## Text
 
-`Text` renders the matching heading or paragraph element for a typography variant. Use `tag` when
-the semantic element needs to be explicit.
+`lit-text` renders the matching heading or paragraph element for a typography variant. Use the
+`tag` attribute when the semantic element must be explicit.
 
-```svelte
-<script>
-    import { Text } from "@imput/helium-prism";
-</script>
+```html
+<lit-text variant="display">Display</lit-text>
+<lit-text variant="title">Title</lit-text>
+<lit-text variant="heading">Heading</lit-text>
+<lit-text variant="subheading">Subheading</lit-text>
+<lit-text variant="body">Body copy.</lit-text>
+<lit-text variant="caption">Caption copy.</lit-text>
 
-<Text variant="display">Display</Text>
-<Text variant="title">Title</Text>
-<Text variant="heading">Heading</Text>
-<Text variant="subheading">Subheading</Text>
-<Text variant="body">Body copy.</Text>
-<Text variant="caption">Caption copy.</Text>
-
-<Text tag="h3" tone="secondary">Semantic heading</Text>
-<Text tag="p" center>Centered paragraph.</Text>
+<lit-text tag="h3" tone="secondary">Semantic heading</lit-text>
+<lit-text tag="p" center>Centered paragraph.</lit-text>
 ```
 
-Text variants are `display`, `title`, `heading`, `subheading`, `body`, and `caption`. Tones are
-`primary`, `secondary`, `tertiary`, and `white`.
+Attributes: `variant` (`display`, `title`, `heading`, `subheading`, `body`, `caption`),
+`tone` (`primary`, `secondary`, `tertiary`, `white`), `tag`, and `center`. The element/tag is
+chosen once at render; later `variant`/`tag` changes do not re-tag.
 
 ## Buttons and links
 
-`Button` accepts native button attributes plus the Helium style props `primary`, `transparent`,
-`card`, `selected`, and `circle`. `primary` and `transparent` are mutually exclusive.
+`lit-button` exposes the style variants as boolean attributes: `primary`, `transparent`,
+`card`, `selected`, `circle`, plus native `disabled` and `type`. Icons go in the default slot.
 
-```svelte
-<script>
-    import { Button, CardLink, IconArrowRight, IconDownload, OuterLink } from "@imput/helium-prism";
-</script>
+```html
+<lit-button>Cancel</lit-button>
+<lit-button primary>Continue <lit-icon name="arrow-right"></lit-icon></lit-button>
+<lit-button transparent>Secondary action</lit-button>
+<lit-button disabled><lit-icon name="download"></lit-icon> Download</lit-button>
+<lit-button selected>Selected</lit-button>
+<lit-button circle aria-label="Continue"><lit-icon name="arrow-right"></lit-icon></lit-button>
 
-<Button>Cancel</Button>
-<Button primary>Continue <IconArrowRight /></Button>
-<Button transparent>Secondary action</Button>
-<Button disabled><IconDownload /> Download</Button>
-<Button selected>Selected</Button>
-<Button circle aria-label="Continue"><IconArrowRight /></Button>
-
-<Button card>
+<lit-button card>
     <span>Card action</span>
-    <IconArrowRight />
-</Button>
-
-<OuterLink href="https://helium.computer">Helium</OuterLink>
-<OuterLink class="button" href="https://helium.computer">
-    Button-style link
-</OuterLink>
-
-<CardLink
-    title="Read more"
-    desc="Open the documentation"
-    href="https://example.com"
-/>
+    <lit-icon name="arrow-right"></lit-icon>
+</lit-button>
 ```
 
-`OuterLink` opens non-hash URLs in a new tab by default and adds `noopener noreferrer`. Hash links
-stay on the same page.
+`lit-outer-link` is an external anchor. It opens non-hash URLs in a new tab by default and
+adds `rel="noopener noreferrer"`; hash links stay on the page. Add the `button` attribute (and
+optional `primary`/`transparent`/`card`/`circle`) to render it with the button look.
+
+```html
+<lit-outer-link href="https://helium.computer">Helium</lit-outer-link>
+<lit-outer-link button primary href="https://helium.computer">
+    <lit-icon name="external-link"></lit-icon> Get Helium
+</lit-outer-link>
+```
+
+`lit-card-link` is a full-width action card with a built-in trailing external-link icon. Slot
+the title/description content.
+
+```html
+<lit-card-link href="https://example.com">
+    <div>
+        <lit-text variant="subheading">Read more</lit-text>
+        <lit-text variant="body">Open the documentation.</lit-text>
+    </div>
+</lit-card-link>
+```
+
+Attributes: `lit-card-link` and `lit-outer-link` take `href`, `target`, `rel`.
 
 ## Inputs
 
-`Input`, `SearchBar`, and `Dropdown` support `bind:value`.
+`lit-input`, `lit-search-bar`, and `lit-dropdown` expose `value` as both an attribute and a JS
+property (`el.value`). State changes dispatch `CustomEvent`s; two-way binding is the consumer's
+job.
 
-`Input` and `SearchBar` support `small` for compact fields.
+`lit-input` accepts `small` for a compact field, `width`, `placeholder`, `disabled`, `id`,
+`aria-label`, and named `leading`/`trailing` slots for accessories. It emits `input` with
+`detail.value`.
 
-`Input` accepts `leading` and `trailing` snippets for accessories.
+`lit-search-bar` has a built-in leading search icon, `placeholder`, and `value`. It emits
+`input` with `detail.value` while typing and `search` with `detail.value` on Enter.
 
-```svelte
-<script>
-    import { Dropdown, IconChevronDown, IconLink, Input, SearchBar } from "@imput/helium-prism";
+`lit-dropdown` takes `value`, `placeholder`, `width`, `aria-label`, `disabled`, and an `open`
+attribute. Options are slotted children carrying `slot="option"` and `data-value`; selecting
+one emits `change` with `detail.value` and closes the panel.
 
-    let email = $state("");
-    let query = $state("");
-    let channel = $state("stable");
+```html
+<lit-search-bar id="search" aria-label="Search" placeholder="Search"></lit-search-bar>
+
+<lit-input id="email" aria-label="Email" placeholder="Email">
+    <lit-icon slot="leading" name="link"></lit-icon>
+    <lit-icon slot="trailing" name="chevron-down"></lit-icon>
+</lit-input>
+<lit-input id="email-small" small aria-label="Small input"></lit-input>
+
+<lit-dropdown id="channel" value="stable" width="260px" aria-label="Release channel">
+    <div slot="option" data-value="stable" role="option">Stable channel</div>
+    <div slot="option" data-value="beta" role="option">Beta channel</div>
+    <div slot="option" data-value="nightly" role="option">Nightly channel</div>
+</lit-dropdown>
+
+<script type="module">
+    const dd = document.querySelector("#channel");
+    dd.addEventListener("change", (e) => console.log(e.detail.value));
+    const search = document.querySelector("#search");
+    search.addEventListener("search", (e) => runSearch(e.detail.value));
 </script>
-
-<SearchBar id="search" bind:value={query} aria-label="Search" />
-<SearchBar
-    id="fixed-search"
-    bind:value={query}
-    width="420px"
-    aria-label="Fixed width search"
-/>
-<SearchBar
-    id="small-search"
-    bind:value={query}
-    small
-    aria-label="Small search"
-/>
-
-<Input id="email-small" bind:value={email} small aria-label="Small input" />
-<Input id="email-medium" bind:value={email} width="320px" aria-label="Medium input" />
-<Input id="email-icon" bind:value={email} aria-label="Input with icon">
-    {#snippet leading()}
-        <IconLink />
-    {/snippet}
-    {#snippet trailing()}
-        <IconChevronDown />
-    {/snippet}
-</Input>
-
-<Dropdown
-    id="channel"
-    bind:value={channel}
-    width="260px"
-    aria-label="Release channel"
-    options={[
-        { value: "stable", label: "Stable channel" },
-        { value: "beta", label: "Beta channel" },
-        { value: "nightly", label: "Nightly channel" },
-    ]}
-/>
-<Dropdown id="platform" placeholder="Choose platform" aria-label="Platform">
-    <option value="mac">macOS</option>
-    <option value="windows">Windows</option>
-    <option value="linux" disabled>Linux</option>
-</Dropdown>
 ```
 
-`Input`, `SearchBar`, and `Dropdown` require an `id` and `aria-label`. Placeholders are optional
-visual hints and are not used as default labels.
+Give inputs an `id` and `aria-label`. Placeholders are visual hints, not labels.
 
 ## Checkbox and toggle
 
-```svelte
-<script>
-    import { Checkbox, Toggle } from "@imput/helium-prism";
+Both expose `checked` as an attribute and a JS property and emit `change` with
+`detail.checked` on user interaction.
 
-    let enabled = $state(true);
-    let checked = $state(false);
+```html
+<lit-checkbox id="terms" checked>Checkbox text</lit-checkbox>
+
+<lit-toggle checked name="Setting" desc="Short setting description."></lit-toggle>
+
+<script type="module">
+    const t = document.querySelector("lit-toggle");
+    t.addEventListener("change", (e) => console.log(e.detail.checked));
+    t.checked = false; // property setter reflects to the attribute
 </script>
-
-<Checkbox id="terms" bind:checked>Checkbox text</Checkbox>
-
-<Toggle
-    bind:checked={enabled}
-    name="Setting"
-    desc="Short setting description."
-/>
 ```
 
-`Toggle` accepts native button attributes, renders with `role="switch"`, and calls `onchange` with
-the next checked state when changed by user interaction.
+`lit-checkbox`: `checked`, `disabled`, `id`, `aria-label`; default slot for the label.
+`lit-toggle`: `checked`, `name`, `desc`, `disabled`; renders `role="switch"`. Provide custom
+content via the default slot instead of `name`/`desc`.
 
 ## Shimmer
 
-`GradientShimmer` fills its parent by default. Set `background` to cover the viewport. Binding the
-component instance with `bind:this` exposes `intro()` and `emphasize()` after mount.
+`lit-gradient-shimmer` fills its parent by default. Add the `background` attribute to position
+it fixed over the viewport. The intro animation runs on mount unless the `no-intro` attribute
+is set. The element exposes `intro()` and `emphasize()` methods.
 
-```svelte
-<script>
-    import { Button, GradientShimmer } from "@imput/helium-prism";
-
-    let shimmer;
-</script>
-
+```html
 <div style="height: 320px">
-    <GradientShimmer bind:this={shimmer} intro={false} />
+    <lit-gradient-shimmer no-intro></lit-gradient-shimmer>
 </div>
 
-<Button onclick={() => shimmer?.intro()}>Replay intro</Button>
-<Button onclick={() => shimmer?.emphasize()}>Emphasize</Button>
+<lit-button id="replay">Replay intro</lit-button>
+<script type="module">
+    const shimmer = document.querySelector("lit-gradient-shimmer");
+    document.querySelector("#replay").addEventListener("click", () => shimmer.intro());
+</script>
 ```
 
-Props:
+Attributes:
 
-- `intro`: starts the intro animation on mount. Defaults to `true`.
-- `background`: positions the canvas fixed to the viewport. Defaults to `false`.
+- `no-intro`: skip the intro animation on mount (intro runs by default).
+- `background`: position the canvas fixed to the viewport.
+
+Methods: `intro()` replays the intro; `emphasize()` triggers the emphasis wave.
 
 ## Feedback and utility
 
-```svelte
-<script>
-    import { Button, CopyIcon, HeliumLogo, Skeleton, Spinner, Tooltip } from "@imput/helium-prism";
+```html
+<lit-helium-logo></lit-helium-logo>
+<lit-helium-logo height="32px"></lit-helium-logo>
+<lit-helium-text></lit-helium-text>
+<lit-helium-text height="32px"></lit-helium-text>
 
-    let copied = $state(false);
-</script>
+<lit-spinner></lit-spinner>
+<lit-spinner size="18"></lit-spinner>
 
-<HeliumLogo />
-<HeliumLogo height="32px" />
-<HeliumLogo text />
-<HeliumLogo text height="32px" />
+<lit-skeleton width="120px" height="38px"></lit-skeleton>
 
-<Spinner />
-<Spinner size={18} />
+<lit-copy-icon value="https://helium.computer"></lit-copy-icon>
 
-<Skeleton width="120px" height="38px" />
-
-<Button onclick={() => (copied = !copied)}>
-    <CopyIcon check={copied} />
-    Copy
-</Button>
-
-{#snippet anchor()}
-    <Button>Hover</Button>
-{/snippet}
-
-{#snippet content()}
-    Tooltip content
-{/snippet}
-
-<Tooltip {anchor} {content} />
+<lit-tooltip text="Tooltip content">
+    <lit-button>Hover</lit-button>
+</lit-tooltip>
 ```
 
-`CopyIcon` shows a copy icon by default. Pass `link` to use the link icon before the check
-animation.
+- `lit-helium-logo` / `lit-helium-text`: brand marks; `height` sizes them (width auto).
+- `lit-spinner`: `size` in px (default 24).
+- `lit-skeleton`: `width`, `height`.
+- `lit-copy-icon`: copies its `value` to the clipboard on click, animates to a check, and
+  emits `copy` with `detail.value`. Pass `link` to show the link icon instead of the copy icon.
+- `lit-tooltip`: `text` sets the tip; the default slot is the trigger. Shows on hover/focus.
 
 ## Icons
 
-Icon components are simple Svelte components that inherit the current text color and size from Prism
-styles.
+`lit-icon` is a single registry element. Set `name` to one of the icon names; it renders an
+inline SVG inheriting `currentColor` and sized to `1em` (override with `width`/`height` via
+CSS, or let a host component size it — buttons/inputs size slotted icons automatically).
 
-- `IconArrowDown`
-- `IconArrowLeft`
-- `IconArrowRight`
-- `IconArrowUp`
-- `IconBang`
-- `IconCheck`
-- `IconChevronDown`
-- `IconCopy`
-- `IconDownload`
-- `IconExternalLink`
-- `IconInfo`
-- `IconLink`
-- `IconLoader`
-- `IconSearch`
-- `IconWorld`
-- `IconX`
+```html
+<lit-icon name="arrow-right"></lit-icon>
+<lit-icon name="download" style="width: 24px; height: 24px"></lit-icon>
+```
+
+Names: `arrow-down`, `arrow-left`, `arrow-right`, `arrow-up`, `bang`, `check`, `chevron-down`,
+`copy`, `download`, `external-link`, `info`, `link`, `loader`, `search`, `world`, `x`.
