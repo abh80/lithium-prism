@@ -4,10 +4,12 @@
     },
     "nodeModulesDir": "manual",
     "lock": false,
-    "exclude": [".svelte-kit", "demo-dist", "dist", "node_modules"],
-    "unstable": ["fmt-component"],
+    "exclude": ["dist", "node_modules"],
+    "lint": {
+        "exclude": ["tests"]
+    },
     "fmt": {
-        "exclude": ["pnpm-lock.yaml"],
+        "exclude": ["pnpm-lock.yaml", "dist", "docs"],
         "indentWidth": 4,
         "lineWidth": 100,
         "trailingCommas": "onlyMultiLine",

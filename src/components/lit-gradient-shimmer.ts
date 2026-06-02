@@ -225,8 +225,8 @@ export class LitGradientShimmer extends LithiumElement {
         }
 
         const stripes: Shimmer.Stripe[] = [];
-        const colorSchemeQuery = window.matchMedia("(prefers-color-scheme: dark)");
-        const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const colorSchemeQuery = globalThis.matchMedia("(prefers-color-scheme: dark)");
+        const reducedMotionQuery = globalThis.matchMedia("(prefers-reduced-motion: reduce)");
 
         let size: Shimmer.Size;
         let stripeWidth: number;
