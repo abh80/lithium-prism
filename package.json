@@ -1,7 +1,7 @@
 {
     "name": "@abh80/lithium-prism",
-    "version": "0.1.0",
-    "description": "Standalone Web Components UI kit — a fork of imput/helium-prism, ported from Svelte to native custom elements",
+    "version": "1.0.0",
+    "description": "Standalone Web Components UI kit; a fork of imput/helium-prism, ported from Svelte to native custom elements",
     "type": "module",
     "packageManager": "pnpm@11.5.0",
     "license": "GPL-3.0-only",
