@@ -1,78 +1,97 @@
-<p align="center">
-    <img width="1000" alt="Helium Prism" src="https://raw.githubusercontent.com/imputnet/helium-prism/refs/heads/main/docs/prism-splash.png">
-</p>
+# lithium-prism
 
-## Helium Prism
+Standalone, framework-agnostic UI kit built on native Web Components (custom elements). It ships
+the building blocks used by web interfaces with typography, buttons, toggles, inputs, loading states,
+icons, and the brand gradient shimmer effect with with zero runtime framework dependency. Drop the
+elements into any page or framework (React, Vue, Svelte, plain HTML, etc.).
 
-Shared UI components of [Helium](https://github.com/imputnet/helium) web interfaces for Svelte.
-
-Prism UI library contains the shared building blocks used by web-based Helium applications and
-websites, such as: typography, buttons, inputs, loading states, icons, and the brand gradient
-shimmer effect.
-
-This library isn't built for use outside of Helium web apps, so it may feel clunky for anything
-else.
-
-Demo: [prism.helium.computer](https://prism.helium.computer/)\
-npm: [@imput/helium-prism](https://www.npmjs.com/package/@imput/helium-prism)
+> [!NOTE]
+> lithium-prism is a fork of [imput/helium-prism](https://github.com/imputnet/helium-prism), ported
+> from Svelte to native Web Components. Licensed GPL-3.0-only. Original work © The Helium Authors.
 
 ## Installation
-
-deno:
-
-```sh
-deno add npm:@imput/helium-prism
-```
 
 pnpm:
 
 ```sh
-pnpm add @imput/helium-prism
+pnpm add @abh80/lithium-prism
 ```
 
-npm:
+## Usage
 
-```sh
-npm i @imput/helium-prism
+### Import the barrel (registers every element)
+
+Import the package root once near your app entry point to register all custom elements, then import
+the stylesheet:
+
+```js
+import "@abh80/lithium-prism";
+import "@abh80/lithium-prism/lithium.css";
 ```
 
-## Basic usage
+Once registered, use the elements anywhere in your markup:
 
-Import the stylesheet once near the root of your app:
+```html
+<lit-button primary>Button</lit-button>
+<lit-button>Button 2</lit-button>
+<lit-toggle></lit-toggle>
+<lit-icon name="copy"></lit-icon>
+```
 
-```svelte
-<script>
-    import "@imput/helium-prism/styles.css";
+### Per-element imports
+
+To register only the elements you use, import them individually:
+
+```js
+import "@abh80/lithium-prism/element/lit-button";
+import "@abh80/lithium-prism/element/lit-toggle";
+import "@abh80/lithium-prism/lithium.css";
+```
+
+### CDN (no bundler)
+
+Each element can be loaded directly in the browser as an ES module:
+
+```html
+<link rel="stylesheet" href="https://unpkg.com/@abh80/lithium-prism/dist/lithium.css" />
+<script type="module">
+    import "https://unpkg.com/@abh80/lithium-prism/element/lit-button";
 </script>
+
+<lit-button primary>Button</lit-button>
 ```
 
-Then import components from the package root:
+## Elements
 
-```svelte
-<script>
-    import { Button } from "@imput/helium-prism";
-</script>
+All elements are registered with a `lit-` prefix:
 
-<Button primary>Button</Button>
-<Button>Button 2</Button>
-```
+- `lit-button` — buttons (boolean attributes such as `primary`, `circle`, `card`, `transparent`,
+  plus `disabled` and `type`)
+- `lit-toggle` — toggle switch
+- `lit-checkbox` — checkbox
+- `lit-input` — text input
+- `lit-text` — typography
+- `lit-spinner` — loading spinner
+- `lit-skeleton` — skeleton placeholder
+- `lit-gradient-shimmer` — brand gradient shimmer effect
+- `lit-card-link`, `lit-outer-link` — link surfaces
+- `lit-search-bar` — search bar
+- `lit-tooltip` — tooltip
+- `lit-dropdown` — dropdown
+- `lit-copy-icon` — copy-to-clipboard icon
+- `lit-icon` — icon by name, e.g. `<lit-icon name="copy"></lit-icon>`
+- `lit-helium-logo`, `lit-helium-text` — brand mark and wordmark
 
-You can also import all components at once if you're a madman or have an actual reason to do so
-(such as for [demo](src/demo/App.svelte) purposes):
+## Theming
 
-```svelte
-<script>
-    import * as Prism from "@imput/helium-prism";
-</script>
-
-<Prism.Button primary>Button</Prism.Button>
-<Prism.Button>Button 2</Prism.Button>
-```
-
-## API docs
-
-Sample usage of components is documented in [docs/api.md](docs/api.md).
+The stylesheet exposes CSS custom properties prefixed with `--lithium-*` (for example
+`--lithium-blue`, `--lithium-blue-hover`, `--lithium-blue-press`, and the elevation scale
+`--lithium-elevated-5` … `--lithium-elevated-50`). Override them on `:root` or any ancestor to
+customize the theme.
 
 ## License
 
-Helium Prism is licensed under GPL-3.0, just like the rest of Helium. See [LICENSE](LICENSE).
+lithium-prism is licensed under [GPL-3.0-only](LICENSE).
+
+The icon set is sourced from a separate project under the MIT license; see
+[src/components/ICONS-LICENSE](src/components/ICONS-LICENSE).

@@ -633,6 +633,11 @@ the "copyright" line and a pointer to where the full notice is found.
 
     Copyright (C) 2026 The Helium Authors
 
+    Copyright (C) 2026 abh80
+
+    lithium-prism is a fork of helium-prism (https://github.com/imputnet/helium-prism),
+    ported from Svelte to native Web Components. Original work Copyright (C) 2026 The Helium Authors.
+
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
