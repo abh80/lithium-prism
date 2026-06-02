@@ -1,25 +1,35 @@
 :root {
     --font: "Instrument Sans Variable", system-ui, Helvetica, Arial, sans-serif;
 
-    --primary: #0d1c64;
-    --secondary: #475a7f;
-    --tertiary: #646f9a;
+    /* ── Base color knobs — override these to theme lithium-prism ───────────── */
+    --lithium-accent: #3450d1; /* actions: primary button, toggle-on, checkbox, focus, links */
+    --lithium-bg: #fbfcff; /* page background */
+    --lithium-surface: var(--lithium-accent); /* elevated-tint base (defaults to accent) */
+    --lithium-fg: #0d1c64; /* text base */
+
+    /* ── Derived: foreground ───────────────────────────────────────────────── */
+    --primary: var(--lithium-fg);
+    --secondary: color-mix(in srgb, var(--lithium-fg) 70%, var(--lithium-bg));
+    --tertiary: color-mix(in srgb, var(--lithium-fg) 55%, var(--lithium-bg));
     --white: #ffffff;
 
-    --lithium-blue: #3450d1;
-    --lithium-blue-hover: #3a58db;
-    --lithium-blue-press: #304bc2;
+    /* ── Derived: accent ───────────────────────────────────────────────────── */
+    --lithium-blue: var(--lithium-accent);
+    --lithium-blue-hover: color-mix(in srgb, var(--lithium-accent) 88%, white);
+    --lithium-blue-press: color-mix(in srgb, var(--lithium-accent) 85%, black);
 
-    --bg-surface: #fbfcff;
-    --bg-gradient-start: #f4f7ff;
-    --bg-gradient-end: #acbbff;
-
+    /* ── Derived: background ───────────────────────────────────────────────── */
+    --bg-surface: var(--lithium-bg);
+    --bg-gradient-start: color-mix(in srgb, var(--lithium-bg) 92%, var(--lithium-accent));
+    --bg-gradient-end: color-mix(in srgb, var(--lithium-bg) 55%, var(--lithium-accent));
     --background: var(--bg-surface);
 
+    /* ── Derived: tooltip surface ──────────────────────────────────────────── */
     --tooltip-bg: #eaedfd;
     --tooltip-shadow: color-mix(in srgb, #9ba6d8 50%, transparent);
 
-    --lithium-elevated: #3450d1;
+    /* ── Derived: elevated surface tints ───────────────────────────────────── */
+    --lithium-elevated: var(--lithium-surface);
     --lithium-elevated-5: color-mix(in srgb, var(--lithium-elevated) 5%, transparent);
     --lithium-elevated-7: color-mix(in srgb, var(--lithium-elevated) 7%, transparent);
     --lithium-elevated-10: color-mix(in srgb, var(--lithium-elevated) 10%, transparent);
@@ -57,20 +67,20 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --primary: #e3e6f2;
-        --secondary: #8f9bcb;
-        --tertiary: #7985b2;
-        --white: var(--primary);
+        /* bg/fg switch per scheme; --secondary/--tertiary derive from them automatically.
+           --lithium-accent is intentionally NOT overridden, so a consumer's accent
+           override applies in both light and dark. */
+        --lithium-bg: #0e1123;
+        --lithium-fg: #e3e6f2;
+        --lithium-surface: #b3beec; /* dark elevated tint base; surface != accent in dark */
+        --white: var(--lithium-fg);
 
         --tooltip-bg: #1d2a5d;
         --tooltip-shadow: color-mix(in srgb, var(--tooltip-bg) 40%, transparent);
-
-        --bg-surface: #0e1123;
-        --bg-gradient-start: #151932;
-        --bg-gradient-end: #2d3c7f;
-
-        --lithium-elevated: #b3beec;
         --glass-filter: blur(12px);
+
+        --bg-gradient-start: color-mix(in srgb, var(--lithium-bg) 80%, var(--lithium-accent));
+        --bg-gradient-end: color-mix(in srgb, var(--lithium-bg) 45%, var(--lithium-accent));
     }
 }
 

@@ -84,10 +84,44 @@ All elements are registered with a `lit-` prefix:
 
 ## Theming
 
-The stylesheet exposes CSS custom properties prefixed with `--lithium-*` (for example
-`--lithium-blue`, `--lithium-blue-hover`, `--lithium-blue-press`, and the elevation scale
-`--lithium-elevated-5` … `--lithium-elevated-50`). Override them on `:root` or any ancestor to
-customize the theme.
+lithium-prism derives every color from four CSS custom properties. Override them on
+`:root` (or any subtree — variables pierce the shadow DOM):
+
+| Variable            | Controls                                                                    | Light default           |
+| ------------------- | --------------------------------------------------------------------------- | ----------------------- |
+| `--lithium-accent`  | Action color: primary button, toggle-on, checkbox, focus, links             | `#3450d1`               |
+| `--lithium-bg`      | Page background                                                             | `#fbfcff`               |
+| `--lithium-surface` | Elevated tint base (button/input/panel backgrounds); defaults to the accent | `var(--lithium-accent)` |
+| `--lithium-fg`      | Text base (`--primary`/`--secondary`/`--tertiary` derive from it)           | `#0d1c64`               |
+
+```css
+/* Accent applies in both light and dark from a single override. */
+:root {
+    --lithium-accent: #c2410c;
+}
+
+/* Background and foreground are scheme-specific — set them per scheme. */
+:root {
+    --lithium-bg: #fff8f3;
+    --lithium-fg: #3a1d0c;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --lithium-bg: #160f0a;
+        --lithium-fg: #f3e9e2;
+    }
+}
+
+/* Decouple the elevated surface tint from the accent if you want neutral surfaces. */
+:root {
+    --lithium-surface: #6b7280;
+}
+```
+
+Derived shades (`hover`/`press`, the `--lithium-elevated-*` tint scale, `--secondary`,
+`--tertiary`, the background gradient) are computed from these knobs with `color-mix`, so a
+single override cascades through the kit. Requires a browser with `color-mix()` support
+(all evergreen browsers since 2023).
 
 ## License
 

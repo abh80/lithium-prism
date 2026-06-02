@@ -73,19 +73,40 @@ state uses JS properties; state changes are `CustomEvent`s (not callback props):
 
 ## Theming
 
-Colors come from CSS custom properties defined in `lithium.css` and resolved through the
+Every color derives from four base knobs defined in `lithium.css` and resolved through the
 shadow boundary (custom properties inherit into shadow roots). Override them on `:root` (or
-any subtree) to retheme. Light/dark switch automatically via `prefers-color-scheme`.
+any subtree) to retheme the whole kit. Light/dark switch automatically via
+`prefers-color-scheme`.
+
+| Variable            | Controls                                                          | Light default           |
+| ------------------- | ---------------------------------------------------------------- | ----------------------- |
+| `--lithium-accent`  | Action color: primary button, toggle-on, checkbox, focus, links  | `#3450d1`               |
+| `--lithium-bg`      | Page background                                                   | `#fbfcff`               |
+| `--lithium-surface` | Elevated tint base (button/input/panel tints); defaults to accent | `var(--lithium-accent)` |
+| `--lithium-fg`      | Text base (`--primary`/`--secondary`/`--tertiary` derive from it) | `#0d1c64`               |
 
 ```css
+/* Accent applies in both light and dark from a single override. */
 :root {
-    --lithium-blue: #c2410c; /* accent: primary button, toggle-on, checkbox, focus */
+    --lithium-accent: #c2410c;
+}
+
+/* Background and foreground are scheme-specific — set them per scheme. */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --lithium-bg: #160f0a;
+        --lithium-fg: #f3e9e2;
+    }
 }
 ```
 
-Key tokens: `--lithium-blue` (+`-hover`/`-press`), the `--lithium-elevated-*` surface-tint
-scale, `--bg-surface`/`--background`, `--primary`/`--secondary`/`--tertiary` text, and the
-`--tooltip-*` surface. Component internals consume these, so an override cascades everywhere.
+Every other token is derived from these knobs with `color-mix`: `--lithium-blue`
+(+`-hover`/`-press`), the `--lithium-elevated-*` surface-tint scale, `--bg-surface`/
+`--background` and the background gradient, `--primary`/`--secondary`/`--tertiary` text, and
+the `--tooltip-*` surface. Component internals consume the derived names, so a single knob
+override cascades everywhere. The dark `@media` block overrides `--lithium-bg`/`-fg`/`-surface`
+but never the accent, so an accent override holds across both schemes. Requires `color-mix()`
+support (all evergreen browsers since 2023).
 
 ## Text
 

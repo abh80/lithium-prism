@@ -141,6 +141,79 @@
                 width: 100%;
                 min-width: 0;
             }
+
+            .theme-controls {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: var(--gap-3);
+                width: min(100%, var(--demo-copy-width));
+            }
+            /* Color control styled as a lithium field: elevated tint, 12px radius,
+               hover/focus states matching lit-input/lit-button. */
+            .theme-control {
+                display: inline-flex;
+                align-items: center;
+                gap: 9px;
+                min-height: 38px;
+                padding: 7px 8px 7px 14px;
+                border-radius: 12px;
+                background-color: var(--lithium-elevated-7);
+                color: var(--secondary);
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                user-select: none;
+                -webkit-user-select: none;
+                transition:
+                    0.2s background-color,
+                    0.1s outline-color;
+            }
+            @media (hover: hover) {
+                .theme-control:hover {
+                    background-color: var(--lithium-elevated-10);
+                }
+            }
+            .theme-control:focus-within {
+                background-color: var(--lithium-elevated-10);
+                outline: 2px var(--primary) solid;
+                outline-offset: -1px;
+            }
+            .theme-control input[type="color"] {
+                appearance: none;
+                -webkit-appearance: none;
+                inline-size: 24px;
+                block-size: 24px;
+                flex: 0 0 auto;
+                padding: 0;
+                border: none;
+                border-radius: 50%;
+                background: none;
+                cursor: pointer;
+                box-shadow: 0 0 0 1px var(--lithium-elevated-20) inset;
+            }
+            .theme-control input[type="color"]::-webkit-color-swatch-wrapper {
+                padding: 0;
+            }
+            .theme-control input[type="color"]::-webkit-color-swatch {
+                border: none;
+                border-radius: 50%;
+            }
+            .theme-control input[type="color"]::-moz-color-swatch {
+                border: none;
+                border-radius: 50%;
+            }
+            /* Field owns the focus ring; suppress the native per-input outline. */
+            .theme-control input[type="color"]:focus-visible {
+                outline: none;
+            }
+            code {
+                font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+                font-size: 0.9em;
+                background-color: var(--lithium-elevated-7);
+                padding: 1px 5px;
+                border-radius: 5px;
+            }
         </style>
     </head>
     <body>
@@ -150,7 +223,8 @@
                 <div class="section-heading intro">
                     <lit-helium-logo height="32px"></lit-helium-logo>
                     <lit-text variant="caption">
-                        Prism: shared UI primitives for Helium web interfaces.
+                        Prism: shared UI primitives for Helium web interfaces, themeable via CSS
+                        variables (see the Theming section below).
                     </lit-text>
                     <div class="row">
                         <lit-outer-link button primary href="https://helium.computer/">
@@ -162,6 +236,41 @@
                             Prism on GitHub
                         </lit-outer-link>
                     </div>
+                </div>
+            </section>
+
+            <!-- Theming -->
+            <section class="showcase-section">
+                <div class="section-heading">
+                    <lit-text variant="heading">Theming</lit-text>
+                    <lit-text variant="caption"
+                        >Every color derives from four CSS variables. Override
+                        <code>--lithium-accent</code>, <code>--lithium-bg</code>,
+                        <code>--lithium-surface</code>, and <code>--lithium-fg</code> to retheme the
+                        whole kit. Try it live (color inputs emit hex and apply to both light and
+                        dark; dark-specific background/text still use an
+                        <code>@media</code> override).</lit-text
+                    >
+                </div>
+
+                <div class="theme-controls">
+                    <label class="theme-control">
+                        <span>Accent</span>
+                        <input type="color" data-var="--lithium-accent" />
+                    </label>
+                    <label class="theme-control">
+                        <span>Background</span>
+                        <input type="color" data-var="--lithium-bg" />
+                    </label>
+                    <label class="theme-control">
+                        <span>Surface</span>
+                        <input type="color" data-var="--lithium-surface" />
+                    </label>
+                    <label class="theme-control">
+                        <span>Foreground</span>
+                        <input type="color" data-var="--lithium-fg" />
+                    </label>
+                    <lit-button id="theme-reset">Reset</lit-button>
                 </div>
             </section>
 
@@ -627,6 +736,32 @@
 
             // lit-gradient-shimmer is registered by the module import; mount once ready.
             customElements.whenDefined("lit-gradient-shimmer").then(() => mountShimmer());
+
+            // Theming controls: write/clear the four base knobs on :root.
+            const themeInputs = document.querySelectorAll(".theme-control input[data-var]");
+            const rootStyle = document.documentElement.style;
+
+            function syncThemeInputs() {
+                const cs = getComputedStyle(document.documentElement);
+                for (const input of themeInputs) {
+                    const value = cs.getPropertyValue(input.dataset.var).trim();
+                    // <input type=color> only accepts #rrggbb; ignore non-hex computed values.
+                    if (/^#[0-9a-fA-F]{6}$/.test(value)) input.value = value;
+                }
+            }
+
+            for (const input of themeInputs) {
+                input.addEventListener("input", () => {
+                    rootStyle.setProperty(input.dataset.var, input.value);
+                });
+            }
+
+            document.querySelector("#theme-reset").addEventListener("click", () => {
+                for (const input of themeInputs) rootStyle.removeProperty(input.dataset.var);
+                syncThemeInputs();
+            });
+
+            syncThemeInputs();
         </script>
     </body>
 </html>
